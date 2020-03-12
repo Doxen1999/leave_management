@@ -17,6 +17,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- import self style -->
   <link rel="stylesheet" href="dist/css/main.css">
+<!-- Toastr -->
+<link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
 
   <link rel="stylesheet" href="assets/css/jquery.datetimepicker.css">
   <!-- Google Font: Source Sans Pro -->
@@ -228,7 +230,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <button type="button" class="btn btn-block btn-success btn-lg" data-toggle="modal" data-target="#modal-add-govenore-leave">เพิ่มใบคำขอไปราชการ</button>
                      </div>
                      <div class="col-lg-6">
-                      <button type="button" class="btn btn-block btn-secondary btn-lg ">จัดการการไปราชการ</button>
+                      <button type="button" class="btn btn-block btn-secondary btn-lg" data-toggle="modal" data-target="#modal-add-govenore-leave-person" ">จัดการการไปราชการ</button>
                      </div>
                    </div>
                  </div>
@@ -347,7 +349,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                    <div class="col-md-6">
                     <div class="form-group">
                       <label for="exampleInputEmail1">ตั้งแต่วันที่</label>
-                      <input id="start_leave_date" type="text" class="form-control" id="exampleInputEmail1" placeholder="ตั้งแต่วันที่">
+                      <input id="start_leave_date" type="text" class="form-control" id="exampleInputEmail1" placeholder="ตั้งแต่วันที่" autocomplete="off">
                     </div>
                   </div>
              <!-- end col-md-6 -->
@@ -355,7 +357,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
              <div class="col-md-6">
               <div class="form-group">
                 <label for="exampleInputEmail1">ถึงวันที่</label>
-                <input id="end_leave_date" type="text" class="form-control" id="exampleInputEmail1" placeholder="ถึงวันที่">
+                <input id="end_leave_date" type="text" class="form-control" id="exampleInputEmail1" placeholder="ถึงวันที่" autocomplete="off">
               </div>
             </div>
                 <!-- end col-md-6 -->
@@ -363,6 +365,162 @@ scratch. This page gets rid of all links and provides the needed markup only.
                  <!-- end row -->
                 </div>
 
+                <!-- /.card-body -->              
+              </form>
+            
+           
+               </div>
+               <!-- col -->
+            </div>
+          <!-- row -->
+          
+          </div>
+          <!-- container -->
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+          <button type="button" class="btn btn-success" onclick="add_governor_leave()">บันทึก</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+
+
+  
+
+
+
+
+
+<div class="modal fade" id="modal-add-govenore-leave-person">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">เพิ่มใบคำขอไปราชการ</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          
+          <div class="container">
+            
+            <div class="row">
+               <div class="col-md-12">
+            
+
+              <!-- form start -->
+              <form role="form">
+                <div class="card-body">
+                  <!-- start row -->
+                  <div class="row">
+                   
+                    <div class="col-lg-12">
+
+                      <p>ค้นหาใบคำขอไปราชการ</p>
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <button type="button" class="btn btn-success" onclick="check_govenor_id()">ค้นหา</button>
+                        </div>
+                        <!-- /btn-group -->
+                        <input type="text" class="form-control" id="input_govenor_id">
+                      </div>
+                      <!-- /input-group -->
+
+                    </div>
+               <!-- end row -->
+                 </div>
+
+                <div class="row">
+
+                  <!-- form start -->
+              <form role="form">
+                <div class="card-body">
+                  <!-- start row -->
+                  <div class="row">
+                      
+                <!-- start col-md-3 -->
+                    <div class="col-md-6">
+                      <!-- select -->
+                      <div class="form-group">
+                        <label>ประเภทการไปราชการ</label>
+                        <input id="govenor_type_name" type="text" class="form-control" id="exampleInputEmail1" placeholder="เรื่อง" disabled>
+                      </div>
+                    </div>
+                     <!-- end col-md-3 -->
+                      <!-- start col-md-5 -->
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">เรื่อง</label>
+                        <input id="govenor_title" type="text" class="form-control" id="exampleInputEmail1" placeholder="เรื่อง" disabled>
+                      </div>
+                    </div>
+               <!-- end col-md-5 -->
+                  </div>
+                  <!-- end row -->
+                   <!-- start row -->
+                <div class="row">
+                  <!-- start col-md-5 -->
+                  <div class="col-md-5">
+                   <div class="form-group">
+                     <label for="exampleInputEmail1">สถานที่</label>
+                     <input id="govenore_where" type="text" class="form-control" id="exampleInputEmail1" placeholder="สถานที่" disabled>
+                   </div>
+                 </div>
+            <!-- end col-md-5 -->
+                 <!-- start col-md-3 -->
+                 <div class="col-md-4">
+                  <!-- select -->
+                  <div class="form-group">
+                    <label>จังหวัด</label>
+                    <input id="province_name" type="text" class="form-control" id="exampleInputEmail1" placeholder="เรื่อง" disabled>
+                  </div>
+                </div>
+                 <!-- end col-md-3 -->
+                 <!-- start col-md-3 -->
+                 <div class="col-md-3">
+                  <!-- select -->
+                  <div class="form-group">
+                    <label>ภาระ</label>
+                    <input id="burden_name" type="text" class="form-control" id="exampleInputEmail1" placeholder="เรื่อง" disabled>
+                  </div>
+                </div>
+                 <!-- end col-md-3 -->
+
+               </div>
+               <!-- end row -->
+                 <!-- start row -->
+                 <div class="row">
+                   <!-- start col-md-6 -->
+                   <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">ตั้งแต่วันที่</label>
+                      <input id="start_leave_date" type="text" class="form-control" id="exampleInputEmail1" placeholder="ตั้งแต่วันที่" autocomplete="off" disabled>
+                    </div>
+                  </div>
+             <!-- end col-md-6 -->
+             <!-- start col-md-6 -->
+             <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleInputEmail1">ถึงวันที่</label>
+                <input id="end_leave_date" type="text" class="form-control" id="exampleInputEmail1" placeholder="ถึงวันที่" autocomplete="off" disabled>
+              </div>
+            </div>
+                <!-- end col-md-6 -->
+                 </div>
+                 <!-- end row -->
+                </div>
+
+                <!-- /.card-body -->              
+              </form>
+
+                </div>
+
+                </div>
                 <!-- /.card-body -->              
               </form>
             
@@ -425,6 +583,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- DataTables -->
 <script src="../../plugins/datatables/jquery.dataTables.js"></script>
 <script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+
+<!-- Toastr -->
+<script src="../../plugins/toastr/toastr.min.js"></script>
 
 <script src="assets/js/moment.js"></script>
 <script src="assets/js/moment-business-days.js"></script>

@@ -447,8 +447,116 @@ function add_governor_leave(){
     var govenore_where = $("#govenore_where").val();
     var govenore_province = $("#getprovince").val();
     var govenore_burden = $("#getburden").val();
+      
+    var diff = moment($("#end_leave_date").val(), 'YYYY-MM-DD').businessDiff(moment($("#start_leave_date").val(),'YYYY-MM-DD'));       
 
-    console.log(govenore_burden +"\t"+ govenore_province);
+    if( govenor_id == 0  ||start_date ==0 || end_date == 0 || govenor_type == 0 || govenor_title == 0 || govenore_where == 0 || diff <=0  ){
+        
+            if(govenor_id == 0){
+                $("#govenore_id").addClass("is-invalid");
+            }else{
+                $("#govenore_id").removeClass("is-invalid");
+            }
 
+            if(start_date == 0){
+                $("#start_leave_date").addClass("is-invalid");
+            }else{
+                $("#start_leave_date").removeClass("is-invalid");
+            }
+
+            if(end_date == 0){
+                $("#end_leave_date").addClass("is-invalid");
+            }else{
+                $("#end_leave_date").removeClass("is-invalid");
+            }
+
+            if(govenor_title == 0){
+                $("#govenor_title").addClass("is-invalid");
+            }else{
+                $("#govenor_title").removeClass("is-invalid");
+            }
+
+            if(govenore_where == 0){
+                $("#govenore_where").addClass("is-invalid");
+            }else{
+                $("#govenore_where").removeClass("is-invalid");
+            }
+
+            if(govenor_type == 0){
+                $("#govenor_type").addClass("is-invalid");
+            }else{
+                $("#govenor_type").removeClass("is-invalid");
+            }
+
+            if(diff <= 0){
+                toastr.error('วันลาเริ่มต้น จนถึง สิ้นสุดควรมีมากกว่า 1 วัน');
+            }
+        
+    }else{
+        $("#govenore_id").removeClass("is-invalid");
+        $("#start_leave_date").removeClass("is-invalid");
+        $("#end_leave_date").removeClass("is-invalid");
+        $("#govenor_title").removeClass("is-invalid");
+        $("#govenore_where").removeClass("is-invalid");
+        $("#govenor_type").removeClass("is-invalid");
+        var access = 1;
+        $.ajax({
+            "url": "http://" + host + "/leave_management/assets/php/insertgovernore.php",
+            "method": "POST",
+            "data": {
+                
+                start_date : start_date,
+                end_date : end_date,
+                govenor_id : govenor_id,
+                govenor_type : govenor_type,
+                govenor_title :  govenor_title,
+                govenore_where : govenore_where,
+                govenore_province : govenore_province,
+                govenore_burden : govenore_burden,
+                access : access
+
+
+            },
+            success: function (result) {
+               $("#start_leave_date").val(null);
+               $("#end_leave_date").val(null);
+               $("#govenore_id").val(null);
+               $("#govenor_type").val(0);
+               $("#govenor_title").val(null);
+               $("#govenore_where").val(null);
+               $("#getprovince").val(1);
+               $("#getburden").val(1);
+               toastr.success('วันลาเริ่มต้น จนถึง สิ้นสุดควรมีมากกว่า 1 วัน');
+               $('#modal-add-govenore-leave').modal('hide');
+            }, error: function (error) {
+                console.log(error);
+            }
+        })
+
+    }
+}
+
+
+    
+function check_govenor_id(){
+    var gorvenor_id = $("#input_govenor_id").val();
+    $.ajax({
+        "url" : "http://" + host + "/leave_management/assets/php/pushgovenor.php",
+        "method" : "POST",
+        "data" : {
+            gorvenor_id : gorvenor_id
+        },success : function(result){
+                if (result == 0){
+                    $("#input_govenor_id").addClass("is-invalid");
+                }else{
+                    $("#input_govenor_id").removeClass("is-invalid");
+                    var data=JSON.parse(result);
+                    var info = data[0];
+
+                    
+                    
+                }
+        }
+    })
 }
 
