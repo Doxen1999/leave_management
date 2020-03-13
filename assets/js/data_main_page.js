@@ -69,7 +69,7 @@ $(document).ready(function() {
       "lengthChange": false,
       "searching": false,
       "ordering": true,
-      "info": true,
+      "info": false,
       "autoWidth": false,
         "ajax": {
             "url": "http://"+host+"/leave_management/assets/php/user_datapush.php",
@@ -101,6 +101,12 @@ $(document).ready(function() {
 
 
     var table_leave_page = $('#leave_page_user_selector').DataTable( {
+        "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": false,
+      "autoWidth": false,
         "ajax": {
             "url": "http://"+host+"/leave_management/assets/php/user_datapush.php",
             "dataSrc": ""
@@ -126,27 +132,53 @@ $(document).ready(function() {
     } );
 
     // คุมevent
-   $('#frm-example').on('submit', function(e){
+   $('#insert_cher_person').on('submit', function(e){
     var form = this;
     
     var rows_selected = table_leave_page.column(0).checkboxes.selected();
-
+    var count = 0  ;
     // แสดงค่า ที่ เรากด checkbox
     $.each(rows_selected, function(index, rowId){
        // สร้าง element ลอย
        $(form).append(
            $('<input>')
               .attr('type', 'hidden')
-              .attr('name', 'id[]')
+              .attr('name', "id[]")
               .val(rowId)
        );
+
+       count = count +1 ;
     });
- 
-    $('#example-console-rows').text(rows_selected.join("/"));
+    if(count<1){
+        toastr.error('ต้องเลือกบุคลากรมากกว่า 0');
+    } else{
+        sessionStorage.setItem("goven_leave_person",$(form).serialize());
+    }
     $('input[name="id\[\]"]', form).remove();
     e.preventDefault();
  });   
-    
+
+
+ var show_user_data = $('#table_show_leave_user').DataTable( {
+    "paging": true,
+    "lengthChange": false,
+    "searching": false,
+    "ordering": true,
+    "info": false,
+    "autoWidth": false,
+      "ajax": {
+          "url": "http://"+host+"/leave_management/assets/php/user_datapush.php",
+          "dataSrc": ""
+      },
+      "columns": [
+          { "data": "person_id"},
+          { "data": "prefix" },
+          { "data": "f_name" },
+          { "data": "l_name" },
+          { "data": "dep_discription" },
+          { "data": "detail" },
+      ]
+  } );
 } );
 
 
@@ -166,6 +198,8 @@ function current_date(){
     var month_arr=["1","2","3","4","5","6","7","8","9","10","11","12"];
     var month_thaiformat=["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"];
     $("#current_date").html(date+"\t"+month_thaiformat[month]+"\t"+(year+543));
+    var patterns = (year+543)+"-"+formatTime(month_arr[month])+"-"+formatTime(date);
+    sessionStorage.setItem("current_date" , patterns)
 }
 function get_current_date(){
     date = new Date().getDate();
@@ -188,3 +222,4 @@ function show_school_year(){
         }
     })
 }
+

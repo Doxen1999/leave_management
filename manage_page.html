@@ -21,6 +21,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
 
   <link rel="stylesheet" href="assets/css/jquery.datetimepicker.css">
+
+  <link rel="stylesheet" href="assets/css/checkbox.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -204,13 +206,31 @@ scratch. This page gets rid of all links and provides the needed markup only.
             
             <div class="card card-green card-outline">
               <div class="card-header">
-                <h5 class="m-0">Featured</h5>
+                <h5 class="m-0">การของบุคลากรแบบทั่วไป</h5>
               </div>
               <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
 
-                <p class="card-text">With supporting text below as a natural lead-in to additional contentdd.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="row">
+                  <div class="col-lg-12">
+
+                  </div>
+                </div>
+
+                <table id="table_show_leave_user" class="table table-bordered table-striped">
+                  <thead>
+                  <tr>
+                    <th>รหัสพนักงาน</th>
+                    <th>คำนำหน้าชื่อ</th>
+                    <th>ชื่อ</th>
+                    <th>นามสกุล</th>
+                    <th>สาขา</th>
+                    <th>จัดการการลา</th>
+                    
+                  </tr>
+                  </thead>
+                </table>
+
+
               </div>
             </div>
 
@@ -238,9 +258,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
             </div>
 
-            <div class="card card-green card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
+            <!-- <div class="card card-green card-outline " id="show_user_data_section">
+              <div class="card-header d-inline-block">
+                <h5 class="m-0">การของบุคลากรแบบทั่วไป</h5>              
               </div>
               <div class="card-body">
                 <h6 class="card-title">Special title treatment</h6>
@@ -248,7 +268,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                 <a href="#" class="btn btn-primary">Go somewhere</a>
               </div>
-            </div>
+            </div> -->
           
           </div>
           <!-- /.col-md-6 -->
@@ -414,7 +434,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             
 
               <!-- form start -->
-              <form role="form">
+              <form role="form" id="insert_cher">
                 <div class="card-body">
                   <!-- start row -->
                   <div class="row">
@@ -448,7 +468,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       <!-- select -->
                       <div class="form-group">
                         <label>ประเภทการไปราชการ</label>
-                        <input id="govenor_type_name" type="text" class="form-control" id="exampleInputEmail1" placeholder="เรื่อง" disabled>
+                        <input id="govenor_type_name" type="text" class="form-control"  placeholder="เรื่อง" disabled>
                       </div>
                     </div>
                      <!-- end col-md-3 -->
@@ -456,7 +476,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="exampleInputEmail1">เรื่อง</label>
-                        <input id="govenor_title" type="text" class="form-control" id="exampleInputEmail1" placeholder="เรื่อง" disabled>
+                        <input id="govenor_title_des" type="text" class="form-control"  placeholder="เรื่อง" disabled>
                       </div>
                     </div>
                <!-- end col-md-5 -->
@@ -468,7 +488,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="col-md-5">
                    <div class="form-group">
                      <label for="exampleInputEmail1">สถานที่</label>
-                     <input id="govenore_where" type="text" class="form-control" id="exampleInputEmail1" placeholder="สถานที่" disabled>
+                     <input id="govenore_where_des" type="text" class="form-control"  placeholder="สถานที่" disabled>
                    </div>
                  </div>
             <!-- end col-md-5 -->
@@ -477,7 +497,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <!-- select -->
                   <div class="form-group">
                     <label>จังหวัด</label>
-                    <input id="province_name" type="text" class="form-control" id="exampleInputEmail1" placeholder="เรื่อง" disabled>
+                    <input id="province_name" type="text" class="form-control"  placeholder="เรื่อง" disabled>
                   </div>
                 </div>
                  <!-- end col-md-3 -->
@@ -486,7 +506,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <!-- select -->
                   <div class="form-group">
                     <label>ภาระ</label>
-                    <input id="burden_name" type="text" class="form-control" id="exampleInputEmail1" placeholder="เรื่อง" disabled>
+                    <input id="burden_name" type="text" class="form-control"  placeholder="เรื่อง" disabled>
                   </div>
                 </div>
                  <!-- end col-md-3 -->
@@ -499,7 +519,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                    <div class="col-md-6">
                     <div class="form-group">
                       <label for="exampleInputEmail1">ตั้งแต่วันที่</label>
-                      <input id="start_leave_date" type="text" class="form-control" id="exampleInputEmail1" placeholder="ตั้งแต่วันที่" autocomplete="off" disabled>
+                      <input id="start_leave_date_des" type="text" class="form-control"  placeholder="ตั้งแต่วันที่" autocomplete="off" disabled>
                     </div>
                   </div>
              <!-- end col-md-6 -->
@@ -507,23 +527,45 @@ scratch. This page gets rid of all links and provides the needed markup only.
              <div class="col-md-6">
               <div class="form-group">
                 <label for="exampleInputEmail1">ถึงวันที่</label>
-                <input id="end_leave_date" type="text" class="form-control" id="exampleInputEmail1" placeholder="ถึงวันที่" autocomplete="off" disabled>
+                <input id="end_leave_date_des" type="text" class="form-control"  placeholder="ถึงวันที่" autocomplete="off" disabled>
               </div>
             </div>
                 <!-- end col-md-6 -->
                  </div>
                  <!-- end row -->
                 </div>
-
-                <!-- /.card-body -->              
+                
+                <!-- /.card-body --> 
+                    
               </form>
-
                 </div>
 
                 </div>
-                <!-- /.card-body -->              
+                <!-- /.card-body -->         
               </form>
-            
+              <div class="row">
+                <div class="col-lg-12">
+                  <form  id="insert_cher_person" method="post" action="">
+                  <table id="leave_page_user_selector" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th></th>
+                          <th>รหัสบุคลากร</th>
+                          <th>คำนำหน้า</th>
+                          <th>ชื่อจริง</th>
+                          <th>นามสกุล</th>
+                      </tr>
+                  </thead>
+                  </table>
+                  <div class="row">
+                    <div class="col-lg-12">
+                      <input type="submit"  class="btn btn-success" value="ยืนยันบุคลากร" />
+                    </div>
+                  </div>        
+                </form>
+              </div>
+              
+            </div>
            
                </div>
                <!-- col -->
@@ -535,7 +577,96 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
         <div class="modal-footer justify-content-between">
           <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
-          <button type="button" class="btn btn-success" onclick="add_governor_leave()">บันทึก</button>
+          <button id="insertdata_da" type="button" class="btn btn-success" onclick="insert_govenore_person()">บันทึก</button>
+        </div>
+      </div>
+      <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+  </div>
+  <!-- /.modal -->
+
+
+  <div class="modal fade" id="toggle-show-userdata">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">จัดการการลาทั่วไป</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-3">
+              <p class="prefix_show d-inline-block"></p> <p class="name_show d-inline-block"></p>
+            </div>
+
+            <div class="col-md-3">
+              <p class="d-inline-block">ตำแหน่งงาน :</p><p class="type_description_show d-inline-block"></p>
+            </div>
+
+            <div class="col-md-3">
+              <p class="d-inline-block">สังกัด :</p><p class="dep_discription_show d-inline-block"></p>
+            </div>
+
+            <div class="col-md-3">
+              <p class="d-inline-block">ตำแหน่งทางวิชาการ :</p><p class="position_dis_show d-inline-block"></p>
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <p class="d-inline-block">แนกงาน :</p> <p class="lisdep_dis_show d-inline-block"></p>
+            </div>
+
+            <div class="col-md-3">
+              <p class="d-inline-block">ประเภทการลา :</p><select class="form-control d-inline-block" id="select_leave_type" onchange="show_select_leave_respond()"></select>
+              </select>
+            </div>
+
+            <div class="col-md-3">
+              <p class="d-inline-block current_leave_status">วันลาคงเหลือ : 0 วัน</p>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label for="exampleInputEmail1">รหัสใบลา</label>
+                <input id="leve_id" type="text" class="form-control"  placeholder="รหัสใบลา">
+              </div>
+            </div>
+          </div>
+          
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="exampleInputEmail1">เรื่อง</label>
+              <input id="leve_title" type="text" class="form-control"  placeholder="เรื่อง">
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleInputEmail1">ขอลาตังแต่</label>
+              <input id="start_leave_date_normal" type="text" class="form-control" id="exampleInputEmail1" placeholder="ตั้งแต่วันที่" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="col-md-3">
+            <div class="form-group">
+              <label for="exampleInputEmail1">ถึงวันที่</label>
+              <input id="end_leave_date_normal" type="text" class="form-control" id="exampleInputEmail1" placeholder="ถึงวันที่" autocomplete="off">
+            </div>
+          </div>
+
+        </div>
+
+
+
+
+        </div>
+        <div class="modal-footer justify-content-between">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+          <button type="button" class="btn btn-success" onclick="insert_leave_normal()">บีนทึก</button>
         </div>
       </div>
       <!-- /.modal-content -->
@@ -573,6 +704,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
+
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
@@ -586,6 +718,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- Toastr -->
 <script src="../../plugins/toastr/toastr.min.js"></script>
+
+<script src="assets/js/checkbox.js"></script>
 
 <script src="assets/js/moment.js"></script>
 <script src="assets/js/moment-business-days.js"></script>

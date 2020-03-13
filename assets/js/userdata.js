@@ -1,5 +1,4 @@
 $(document).ready(function () {
-    manage_userdata(sessionStorage.getItem("userdata"));
     document.getElementById("start_school_year").value = get_current_date();
     getschool_year();
     check_year_in_table();
@@ -10,6 +9,7 @@ $( document ).ready(function() {
     govenor_type();
     province_loop();
     burden_loop();
+    
   });
 
 function manage_userdata(userid) {
@@ -30,8 +30,6 @@ function manage_userdata(userid) {
             $(".position_dis_show").html(datainformation.position_dis);
             $(".p_discription_show").html(datainformation.p_discription);
             $(".side_dis_show").html(datainformation.side_dis);
-            setavartar(datainformation.prefix_id);
-            get_current_leave(userid);
         }, error: function (error) {
             console.log(error);
         }
@@ -316,7 +314,6 @@ function show_select_leave_respond(){
         "data": { userid: userid },
         success: function (result) {
             sessionStorage.setItem("infomation",result);
-            get_current_leave(userid);
         }, error: function (error) {
             console.log(error);
         }
@@ -335,7 +332,6 @@ function show_select_leave_respond(){
     })
       
     if( value== 1 || value== 2 || value== 3 || value== 4 || value== 5 || value== 6){
-        set_leave_manage_page_normal_leave_on();
         var data = JSON.parse(sessionStorage.getItem("infomation"));
         var datainformation = data[0];
         var leave=JSON.parse(sessionStorage.getItem("curr_leave"));
@@ -356,15 +352,11 @@ function show_select_leave_respond(){
         }else if(value == 6){
             leave_status = info.monk_leave;
         }
-$(".current_leave_status").html('<p class="classinusertext_center_detail datasec current_leave_status">วัน'+leavetype[value]+'สะสม : '+leave_status+'</p>');
-$(".date_leave_name").html('<p class="classinusertext_center_detail datasec date_leave_name">ขอ'+leavetype[value]+'ตั้งแต่วันที่ :</p>');
+$(".current_leave_status").html('<p class="d-inline-block current_leave_status">วัน'+leavetype[value]+'สะสม : '+leave_status+'\tวัน</p>');
 
     }else if( value == 0 || value == null){
-        set_leave_manage_page_normal_leave_off();
-    }else if( value ==7){
-        $(".date_leave_name").html('<p class="classinusertext_center_detail datasec date_leave_name">ขอ'+leavetype[value]+'ตั้งแต่วันที่ :</p>');
+        toastr.error('กรุณาเลือกประเภทการลา');
     }
-    
 }
 
 jQuery('#start_leave_date').datetimepicker(
@@ -376,6 +368,23 @@ jQuery('#start_leave_date').datetimepicker(
     }
 );
 jQuery('#end_leave_date').datetimepicker(
+     {
+    lang:'th',
+    timepicker:false,
+    yearOffset:543,
+    format:'Y-m-d'
+}
+);
+
+jQuery('#start_leave_date_normal').datetimepicker(
+    {
+        lang:'th',
+        timepicker:false,
+        yearOffset:543,
+        format:'Y-m-d'
+    }
+);
+jQuery('#end_leave_date_normal').datetimepicker(
      {
     lang:'th',
     timepicker:false,
@@ -526,7 +535,7 @@ function add_governor_leave(){
                $("#govenore_where").val(null);
                $("#getprovince").val(1);
                $("#getburden").val(1);
-               toastr.success('วันลาเริ่มต้น จนถึง สิ้นสุดควรมีมากกว่า 1 วัน');
+               toastr.success('เพิ่มข้อมูลสำเร็จ');
                $('#modal-add-govenore-leave').modal('hide');
             }, error: function (error) {
                 console.log(error);
@@ -552,11 +561,123 @@ function check_govenor_id(){
                     $("#input_govenor_id").removeClass("is-invalid");
                     var data=JSON.parse(result);
                     var info = data[0];
-
-                    
+                    console.log(info);
+                    sessionStorage.setItem("goven_id" , info.govenor_id);
+                    $("#govenor_type_name").val(info.goven_type_des);
+                    $("#govenor_title_des").val(info.goven_discription);
+                    $("#govenore_where_des").val(info.goven_place);
+                    $("#province_name").val(info.pro_discription);
+                    $("#burden_name").val(info.burden_discription);
+                    $("#start_leave_date_des").val(info.date_start);
+                    $("#end_leave_date_des").val(info.date_end);
+                   
                     
                 }
         }
     })
 }
 
+function insert_govenore_person(){
+    var current_date = sessionStorage.getItem("current_date");
+    var govenor_id = sessionStorage.getItem("goven_id");
+    $.ajax({
+        "url" : "http://" + host + "/leave_management/assets/php/insetgovenorleaveperson.php?"+sessionStorage.getItem("goven_leave_person"),
+        "method" : "POST",
+        "data" : {
+            
+            current_date : current_date,
+            govenor_id : govenor_id
+        },success : function(result){
+               console.log(result);
+               sessionStorage.removeItem("goven_leave_person");
+        }
+    })
+}
+
+function view_userdata(userid_data){
+    sessionStorage.setItem("userdata",userid_data);
+    manage_userdata(userid_data);
+}
+
+function insert_leave_normal(){
+    var start_date = $("#start_leave_date_normal").val();
+    var end_date = $("#end_leave_date_normal").val();
+    var leave_id = $("#leve_id").val();
+    var leve_title = $("#leve_title").val();
+    var select_leave_type = $("#select_leave_type").val();
+      
+    var diff = moment($("#end_leave_date_normal").val(), 'YYYY-MM-DD').businessDiff(moment($("#start_leave_date_normal").val(),'YYYY-MM-DD'));       
+
+    if( leave_id == 0  ||start_date ==0 || end_date == 0 || leve_title == 0 || select_leave_type == 0 || diff <=0  ){
+        
+            if(leave_id == 0){
+                $("#leve_id").addClass("is-invalid");
+            }else{
+                $("#leve_id").removeClass("is-invalid");
+            }
+            if(leve_title == 0){
+                $("#leve_title").addClass("is-invalid");
+            }else{
+                $("#leve_title").removeClass("is-invalid");
+            }
+
+            if(start_date == 0){
+                $("#start_leave_date_normal").addClass("is-invalid");
+            }else{
+                $("#start_leave_date_normal").removeClass("is-invalid");
+            }
+
+            if(end_date == 0){
+                $("#end_leave_date_normal").addClass("is-invalid");
+            }else{
+                $("#end_leave_date_normal").removeClass("is-invalid");
+            }
+
+            if(select_leave_type == 0){
+                $("#select_leave_type").addClass("is-invalid");
+            }else{
+                $("#select_leave_type").removeClass("is-invalid");
+            }
+
+            if(diff <= 0){
+                toastr.error('วันลาเริ่มต้น จนถึง สิ้นสุดควรมีมากกว่า 1 วัน');
+            }
+        
+    }else{
+        $("#leve_id").removeClass("is-invalid");
+        $("#leve_title").removeClass("is-invalid");
+        $("#start_leave_date_normal").removeClass("is-invalid");
+        $("#end_leave_date_normal").removeClass("is-invalid");
+        $("#select_leave_type").removeClass("is-invalid");
+        var access = 1;
+        var userdata = sessionStorage.getItem("userdata");
+        $.ajax({
+            "url": "http://" + host + "/leave_management/assets/php/insert_leave_normal.php",
+            "method": "POST",
+            "data": {
+                userdata  : userdata,
+                start_date :start_date,
+                end_date :end_date,
+                leave_id : leave_id,
+                diff : diff,
+                leve_title : leve_title,
+                select_leave_type : select_leave_type,
+                access : access
+
+
+            },
+            success: function (result) {
+            $("#start_leave_date_normal").val(null);
+             $("#end_leave_date_normal").val(null);
+             $("#leve_id").val(null);
+             $("#end_leave_date").val(null);
+             $("#select_leave_type").val(0);
+               toastr.success('เพิ่มข้อมูลสำเร็จ');
+               $('#toggle-show-userdata').modal('hide');
+            }, error: function (error) {
+                console.log(error);
+            }
+        })
+
+    }
+}

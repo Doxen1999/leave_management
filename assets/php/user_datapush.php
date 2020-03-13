@@ -13,7 +13,7 @@ while($row = mysqli_fetch_array($sql_results))
     $subArray['l_name'] = $row['l_name_th'];
     $subArray['lisdep_dis'] = $row['lisdep_dis'];
     $subArray['dep_discription'] = $row['dep_discription'];
-    $subArray['detail'] = $detail = "<center><button  onclick='popup_data(".$row['person_id'].")' type='button'>ดูข้อมูล</button></center>";
+    $subArray['detail'] = $detail = "<center><button class='btn btn-success'  onclick='view_userdata(".$row['person_id'].")' type='button'data-toggle='modal' data-target='#toggle-show-userdata'>จัดการการลา</button></center>";
     $array[] =  $subArray ;
 }
 
