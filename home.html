@@ -20,7 +20,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- DataTables -->
-  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.css">
+  <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -69,8 +69,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
       </div>
 
-      <!-- Sidebar Menu -->
-      <nav class="mt-2">
+       <!-- Sidebar Menu -->
+       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
@@ -103,15 +103,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="manage_user.html" class="nav-link">
                       <i class="fas fa-plus nav-icon"></i>
                       <p>เพิ่มบุคลากร</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fas fa-wrench nav-icon"></i>
-                      <p>แก้ไขข้อมูลบุคลากร</p>
                     </a>
                   </li>
                 </ul>
@@ -128,33 +122,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="manage_system.html" class="nav-link">
                       <i class="fas fa-desktop nav-icon"></i></i>
                       <p>ตั้งค่าระบบ</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fas fa-wrench nav-icon"></i>
-                      <p>เพิ่มผู้ดูแลระบบ</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fas fa-wrench nav-icon"></i>
-                      <p>เพิ่มตำแหน่งทางวิชาการ</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fas fa-wrench nav-icon"></i>
-                      <p>เพิ่มหน่วยงานทางสังกัด</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fas fa-wrench nav-icon"></i>
-                      <p>เพิ่มคำนำหน้าชื่อ</p>
                     </a>
                   </li>
                 </ul>
@@ -162,7 +132,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
          
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" class="nav-link" onclick="logout()">
                   <i class="nav-icon fas fa-chevron-circle-right"></i>
                   <p>
                     ออกจากระบบ
@@ -220,7 +190,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>0 คน</h3>
+                <h3 id="today_leave_count">0 คน</h3>
 
                 <p>บุคคลากรที่ลาในวันนี้</p>
               </div>
@@ -269,7 +239,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <div class="card card-green card-outline">
               <div class="card-header">
                 <i class="fas fa-table d-inline"></i>
-                <h5 class="m-0 d-inline">ตาราแสดงการลาของบุคคลากรภายในวันนี้</h5>
+                <h5 class="m-0 d-inline">ตารางบุคลากรทั้งหมด</h5>
               </div>
               <div class="card-body">
                 <table id="table_show_leave_today" class="table table-bordered table-striped">
@@ -337,10 +307,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="dist/js/adminlte.min.js"></script>
 
 <!-- DataTables -->
-<script src="../../plugins/datatables/jquery.dataTables.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="plugins/datatables/jquery.dataTables.js"></script>
+<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 
 <!-- <script src="assets/js/auth.js"></script> -->
+<script src="assets/js/auth.js"></script>
 <script src="assets/js/bob.js"></script>
 <script src="assets/js/userdata.js"></script>
 <script src="assets/js/notify.js"></script>

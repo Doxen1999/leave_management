@@ -14,6 +14,7 @@ while($row = mysqli_fetch_array($sql_results))
     $subArray['lisdep_dis'] = $row['lisdep_dis'];
     $subArray['dep_discription'] = $row['dep_discription'];
     $subArray['detail'] = $detail = "<center><button class='btn btn-success'  onclick='view_userdata(".$row['person_id'].")' type='button'data-toggle='modal' data-target='#toggle-show-userdata'>จัดการการลา</button></center>";
+    $subArray['edituser'] = $edituser = "<center><button class='btn btn-warning'  onclick='edituser(".$row['person_id'].")'>แก้ไขบุคลากร</button></center>";
     $array[] =  $subArray ;
 }
 

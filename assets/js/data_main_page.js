@@ -179,6 +179,27 @@ $(document).ready(function() {
           { "data": "detail" },
       ]
   } );
+
+  var show_user_data_edit = $('#table_show_edit_user').DataTable( {
+    "paging": true,
+    "lengthChange": false,
+    "searching": false,
+    "ordering": true,
+    "info": false,
+    "autoWidth": false,
+      "ajax": {
+          "url": "http://"+host+"/leave_management/assets/php/user_datapush.php",
+          "dataSrc": ""
+      },
+      "columns": [
+          { "data": "person_id"},
+          { "data": "prefix" },
+          { "data": "f_name" },
+          { "data": "l_name" },
+          { "data": "dep_discription" },
+          { "data": "edituser" },
+      ]
+  } );
 } );
 
 

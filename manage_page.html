@@ -9,7 +9,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>LEAVE MANGE | LEAVE</title>
+  <title>LEAVE MANGE | MANGE LEAVE</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -18,7 +18,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- import self style -->
   <link rel="stylesheet" href="dist/css/main.css">
 <!-- Toastr -->
-<link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
+<link rel="stylesheet" href="plugins/toastr/toastr.min.css">
 
   <link rel="stylesheet" href="assets/css/jquery.datetimepicker.css">
 
@@ -26,7 +26,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<body class="hold-transition sidebar-mini sidebar-collapse">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-fixed">
 <div class="wrapper">
 
   <!-- Navbar -->
@@ -105,15 +105,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="manage_user.html" class="nav-link">
                       <i class="fas fa-plus nav-icon"></i>
                       <p>เพิ่มบุคลากร</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fas fa-wrench nav-icon"></i>
-                      <p>แก้ไขข้อมูลบุคลากร</p>
                     </a>
                   </li>
                 </ul>
@@ -130,33 +124,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="manage_system.html" class="nav-link">
                       <i class="fas fa-desktop nav-icon"></i></i>
                       <p>ตั้งค่าระบบ</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fas fa-wrench nav-icon"></i>
-                      <p>เพิ่มผู้ดูแลระบบ</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fas fa-wrench nav-icon"></i>
-                      <p>เพิ่มตำแหน่งทางวิชาการ</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fas fa-wrench nav-icon"></i>
-                      <p>เพิ่มหน่วยงานทางสังกัด</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
-                      <i class="fas fa-wrench nav-icon"></i>
-                      <p>เพิ่มคำนำหน้าชื่อ</p>
                     </a>
                   </li>
                 </ul>
@@ -164,7 +134,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
          
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" class="nav-link" onclick="logout()">
                   <i class="nav-icon fas fa-chevron-circle-right"></i>
                   <p>
                     ออกจากระบบ
@@ -206,7 +176,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             
             <div class="card card-green card-outline">
               <div class="card-header">
-                <h5 class="m-0">การของบุคลากรแบบทั่วไป</h5>
+                <h5 class="m-0">การลาของบุคลากรแบบทั่วไป</h5>
               </div>
               <div class="card-body">
 
@@ -576,7 +546,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- container -->
         </div>
         <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="modal_close()">ปิด</button>
           <button id="insertdata_da" type="button" class="btn btn-success" onclick="insert_govenore_person()">บันทึก</button>
         </div>
       </div>
@@ -665,7 +635,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
         </div>
         <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">ปิด</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="modal_close()">ปิด</button>
           <button type="button" class="btn btn-success" onclick="insert_leave_normal()">บีนทึก</button>
         </div>
       </div>
@@ -713,16 +683,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- <script src="assets/js/auth.js"></script> -->
 <script src="assets/js/jquery.datetimepicker.js"></script>
 <!-- DataTables -->
-<script src="../../plugins/datatables/jquery.dataTables.js"></script>
-<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+<script src="plugins/datatables/jquery.dataTables.js"></script>
+<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 
 <!-- Toastr -->
-<script src="../../plugins/toastr/toastr.min.js"></script>
+<script src="plugins/toastr/toastr.min.js"></script>
 
 <script src="assets/js/checkbox.js"></script>
 
 <script src="assets/js/moment.js"></script>
 <script src="assets/js/moment-business-days.js"></script>
+<script src="assets/js/auth.js"></script>
 <script src="assets/js/bob.js"></script>
 <script src="assets/js/userdata.js"></script>
 <script src="assets/js/notify.js"></script>

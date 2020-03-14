@@ -9,7 +9,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
 
-  <title>LEAVE MANGE | HOME</title>
+  <title>LEAVE MANGE | MANAGE SYSTEM</title>
 
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
@@ -17,6 +17,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <!-- import self style -->
   <link rel="stylesheet" href="dist/css/main.css">
+<!-- Toastr -->
+<link rel="stylesheet" href="plugins/toastr/toastr.min.css">
+
+  <link rel="stylesheet" href="assets/css/jquery.datetimepicker.css">
+
+  <link rel="stylesheet" href="assets/css/checkbox.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -71,7 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                <li class="nav-item">
-                <a href="home.html" class="nav-link active">
+                <a href="home.html" class="nav-link">
                   <i class="nav-icon fas fa-home"></i>
                   <p>
                     หน้าแรก
@@ -99,7 +105,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="manage_user.html" class="nav-link">
                       <i class="fas fa-plus nav-icon"></i>
                       <p>เพิ่มบุคลากร</p>
                     </a>
@@ -117,8 +123,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="#" class="nav-link">
+                  <li class="nav-item active">
+                    <a href="manage_system.html" class="nav-link">
                       <i class="fas fa-desktop nav-icon"></i></i>
                       <p>ตั้งค่าระบบ</p>
                     </a>
@@ -128,7 +134,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
          
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="#" class="nav-link" onclick="logout()">
                   <i class="nav-icon fas fa-chevron-circle-right"></i>
                   <p>
                     ออกจากระบบ
@@ -149,12 +155,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark">Starter Page</h1>
+            <h1 class="m-0 text-dark">ตั้งค่าระบบ</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Starter Page</li>
+              <li class="breadcrumb-item"><a href="#">ตั้งค่าระบบ</a></li>
+              <li class="breadcrumb-item active">ตั้งค่าระบบ</li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -167,58 +173,94 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="container-fluid">
         <div class="row">
           <div class="col-lg-6">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.เทสส
-                </p>
-
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-              </div>
-            </div>
-
+        
             <div class="card card-primary card-outline">
               <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-
-                <p class="card-text">
-                  Some quick example text to build on the card title and make up the bulk of the card's
-                  content.
-                </p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+                <div class="col-lg-12">
+                  <div class="from-group">
+                    <label for="exampleInputEmail1">ปีงบประมาณที่</label>
+                    <input type="text" class="form-control" id="school_year_insert" placeholder="ปีงบประมาณที่">
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">ครั้งที่</label>
+                    <select class="form-control" id="phase_insert">
+                    <option value="0">กรุณาเลือก</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    </select>
+                  </div>
+                  <div class="from-group">
+                    <label for="exampleInputEmail1">ตั้งค่าแต่วันที่</label>
+                    <input type="text" class="form-control start_school_year"  placeholder="ตั้งค่าแต่วันที่">
+                  </div>
+                  <div class="from-group">
+                    <label for="exampleInputEmail1">ถึงววันที่</label>
+                    <input type="text" class="form-control end_school_year"  placeholder="ถึงววันที่">
+                  </div>
+                </div>
               </div>
-            </div><!-- /.card -->
+              <!-- /.card-body -->
+
+              <div class="card-footer">
+                <button type="button" class="btn btn-success" id="add_person" onclick="insert_school_year()">เพิ่มปีงบประมาณ</button>
+              </div>
+            </form>
+          </div>
           </div>
           <!-- /.col-md-6 -->
           <div class="col-lg-6">
-            <div class="card">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
-              <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-              </div>
+             <!-- general form elements -->
+           <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">เพิ่ม/แก้ไขบุคลากร</h3>
             </div>
-
-            <div class="card card-primary card-outline">
-              <div class="card-header">
-                <h5 class="m-0">Featured</h5>
-              </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form role="form">
               <div class="card-body">
-                <h6 class="card-title">Special title treatment</h6>
-
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <div class="col-lg-12">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">ประเภทบุุคลากร</label>
+                    <select class="form-control person_type_insert" onchange="get_maxleave_date(value)">
+                    <option value="0">กรุณาเลือก</option>
+                    </select>
+                  </div>
+                  <div class="from-group">
+                    <label for="exampleInputEmail1">ลาป่วย</label>
+                    <input type="text" class="form-control leave_1" id="leave_1" placeholder="ลาป่วย">
+                  </div>
+                  <div class="from-group">
+                    <label for="exampleInputEmail1">ลาคลอด</label>
+                    <input type="text" class="form-control leave_2" id="leave_2" placeholder="ลาคลอด">
+                  </div>
+                  <div class="from-group">
+                    <label for="exampleInputEmail1">ลาไปช่วยเหลือภริยาคลอดบุตร </label>
+                    <input type="text" class="form-control leave_3" id="leave_3" placeholder="ลาไปช่วยเหลือภริยาคลอดบุตร">
+                  </div>
+                  <div class="from-group">
+                    <label for="exampleInputEmail1">ลากิจ</label>
+                    <input type="text" class="form-control leave_4" id="leave_4" placeholder="ลากิจ">
+                  </div>
+                  <div class="from-group">
+                    <label for="exampleInputEmail1">ลาพักผ่อน</label>
+                    <input type="text" class="form-control leave_5" id="leave_5" placeholder="ลาพักผ่อน">
+                  </div>
+                  <div class="from-group">
+                    <label for="exampleInputEmail1">ลาอุปสมบท</label>
+                    <input type="text" class="form-control leave_6" id="leave_6" placeholder="ลาอุปสมบท">
+                  </div>
+                </div>
               </div>
-            </div>
+              <!-- /.card-body -->
+
+              <div class="card-footer">
+                <button type="button" class="btn btn-success" id="add_person" onclick="update_maxleave_date()">เพิ่มบุคลากร</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.card -->
+
+            
           </div>
           <!-- /.col-md-6 -->
         </div>
@@ -255,12 +297,26 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
+
 <!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 
 <!-- <script src="assets/js/auth.js"></script> -->
+<script src="assets/js/jquery.datetimepicker.js"></script>
+<!-- DataTables -->
+<script src="plugins/datatables/jquery.dataTables.js"></script>
+<script src="plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
+
+<!-- Toastr -->
+<script src="plugins/toastr/toastr.min.js"></script>
+
+<script src="assets/js/checkbox.js"></script>
+
+<script src="assets/js/moment.js"></script>
+<script src="assets/js/moment-business-days.js"></script>
+<script src="assets/js/auth.js"></script>
 <script src="assets/js/bob.js"></script>
 <script src="assets/js/userdata.js"></script>
 <script src="assets/js/notify.js"></script>

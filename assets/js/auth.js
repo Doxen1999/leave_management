@@ -6,7 +6,7 @@ function authentication (){
     var checkusername = sessionStorage.getItem("username");
 
     if(checkusername == null){
-        window.location.href = "http://"+host+"/leave_management/login.html";
+        window.location.href = "http://"+host+"/leave_management/index.html";
     }
 
 

@@ -9,8 +9,59 @@ $( document ).ready(function() {
     govenor_type();
     province_loop();
     burden_loop();
-    
+    select_pushdata();
+    $("#cancle_edit_person").hide();
+    $("#edit_person").hide();
+    get_personleave_today(sessionStorage.getItem("current_date"))
   });
+
+  jQuery('.birthday_insert').datetimepicker(
+    {
+   lang:'th',
+   timepicker:false,
+   yearOffset:543,
+   format:'Y-m-d'
+}
+);
+jQuery('.start_date_insert').datetimepicker(
+    {
+   lang:'th',
+   timepicker:false,
+   yearOffset:543,
+   format:'Y-m-d'
+}
+);
+jQuery('.start_school_year').datetimepicker(
+    {
+   lang:'th',
+   timepicker:false,
+   yearOffset:543,
+   format:'Y-m-d'
+}
+);
+jQuery('.end_school_year').datetimepicker(
+    {
+   lang:'th',
+   timepicker:false,
+   yearOffset:543,
+   format:'Y-m-d'
+}
+);
+
+function get_personleave_today(currentdate){
+    $.ajax({
+        "url":"http://" + host + "/leave_management/assets/php/getleavetoday.php",
+        "method" : "POST",
+        "data" : {
+               currentdate : currentdate
+        },
+        success:function(result){
+  $("#today_leave_count").html(result+"\tคน");
+        }
+
+    })
+}
+
 
 function manage_userdata(userid) {
     $.ajax({
@@ -46,21 +97,23 @@ function setavartar(prefixs) {
 }
 
 function getdata_insert() {
-    var personid = $("#insert_personid").val();
-    var prefix = $("#insert_prefix").val();
-    var firstname = $("#insert_f_name").val();
-    var lastname = $("#insert_l_name").val();
-    var sai = $("#insert_sai").val();
-    var academic = $("#insert_academic").val();
-    var persontype = $("#insert_person_type").val();
-    var birth = $("#insert_birth").val();
-    var start_date = $("#insert_stat_date").val();
-    var department = $("#insert_department").val();
-    var side = $("#insert_side").val();
-    var listdepartment = $("#insert_lisdep").val();
-    var position = $("#insert_position").val();
+    var personid = $(".person_id").val();
+    var prefix = $(".prefix_id").val();
+    var firstname = $(".first_name").val();
+    var lastname = $(".last_name").val();
+    var sai = $(".person_sai_insert").val();
+    var academic = $(".person_academic_insert").val();
+    var persontype = $(".person_type_insert").val();
+    var birth = $(".birthday_insert").val();
+    var start_date = $(".start_date_insert").val();
+    var department = $(".local_dep_insert").val();
+    var side = $(".side_list_insert").val();
+    var listdepartment = $(".list_dep_insert").val();
+    var position = $(".position_order_insert").val();
+    var status_income = $(".status_incom_insert").val();
+    var status = $(".person_status_insert").val();
 
-    if (personid && prefix && firstname && lastname && sai && academic && persontype && birth && start_date && department && side && listdepartment && position != null) {
+    if (personid && prefix && firstname && lastname && sai && academic && persontype && birth && start_date && department && side && listdepartment && position && status_income && status != null) {
         $.ajax({
             "url": "http://" + host + "/leave_management/assets/php/insertperson.php",
             "method": "POST",
@@ -78,25 +131,44 @@ function getdata_insert() {
                 side: side,
                 listdepartment: listdepartment,
                 position: position,
+                status_income : status_income,
+                status : status
 
             },
             success: function (result) {
-                alert("เพิ่มคุณ\t" + firstname + "\t" + lastname + "\tเรียบร้อยแล้ว");
-                personid = null;
+
+                toastr.success("เพิ่มคุณ\t" + firstname + "\t" + lastname + "\tเรียบร้อยแล้ว");
+
+                insert_new_user_to_leave_stat(personid,persontype);
+                $(".person_id").val(null);
+                $(".prefix_id").val(1);
+                $(".first_name").val(null);
+                $(".last_name").val(null);
+                $(".person_sai_insert").val(1);
+                $(".person_academic_insert").val(1);
+                $(".person_type_insert").val(1);
+                $(".birthday_insert").val(null);
+                $(".start_date_insert").val(null);
+                $(".local_dep_insert").val(1);
+                $(".side_list_insert").val(1);
+                $(".list_dep_insert").val(1);
+                $(".position_order_insert").val(1);
+                $(".status_incom_insert").val(1);
+                $(".person_status_insert").val(1);
             }, error: function (error) {
                 console.log(error);
             }
         })
     } else {
-        alert("กรุณากรอกข้อมูลให้ครบถ้วน");
+        toastr.error('กรุณากรอกข้อมูลให้ครบ');
     }
 }
 function insert_school_year() {
     var access = 0;
     var school_year = $("#school_year_insert").val();
     var phase = $("#phase_insert").val();
-    var start_school_year = $("#start_school_year").val();
-    var end_date = $("#end_school_year").val();
+    var start_school_year = $(".start_school_year").val();
+    var end_date = $(".end_school_year").val();
     var strformat = school_year + "/" + phase;
     if ((school_year && phase && start_school_year != null) && (end_date != 0)) {
         access = 1;
@@ -114,13 +186,16 @@ function insert_school_year() {
             if (result == 1) {
                 $.notify("เพิ่มปีงบประมาณสำเร็จ", { position: " bottom right ", className: "success" });
                 $("#school_year_insert").val(null);
-                $("#phase_insert").val(null);
-                $("#end_school_year").val(null);
+                $("#phase_insert").val(0);
+                $(".start_school_year").val(null);
+                $(".end_school_year").val(null);
+                update_school_year_active(strformat);
             } else if (result == 2) {
                 $.notify("มีปีงบประมาณอยู่แล้ว", { position: " bottom right ", className: "error" });
                 $("#school_year_insert").val(null);
-                $("#phase_insert").val(null);
-                $("#end_school_year").val(null);
+                $("#phase_insert").val(0);
+                $(".start_school_year").val(null);
+                $(".end_school_year").val(null);
             } else if (result == 0) {
                 $.notify("กรุณาใส่ข้อมูลให้ครบถ้วน", { position: " bottom right ", className: "error" });
             }
@@ -172,7 +247,7 @@ function update_maxleave_date(){
     var activity_leave = $("#leave_4").val();
     var vacation_leave = $("#leave_5").val();
     var monk_leave = $("#leave_6").val();
-    var value = $("#pick_person_type").val();
+    var value = $(".person_type_insert").val();
     $.ajax({
         "url": "http://" + host + "/leave_management/assets/php/updatemaxleave.php",
         "method": "POST",
@@ -218,8 +293,7 @@ function getschool_year(){
     })
 }
 
-function update_school_year_active(){
-    var active_school_year = $("#getschoolyear").val();
+function update_school_year_active(active_school_year){
      $.ajax({
          "url" : "http://" + host + "/leave_management/assets/php/activeyear.php " ,
          "method" : "POST",
@@ -231,6 +305,7 @@ function update_school_year_active(){
                 $.notify("กำหนดปีงบประมาณสำเร็จ", { position: " bottom right ", className: "success" });
                 show_school_year();
                 check_year_in_table();
+                setmaxleaveintable();
              }else if (result == 2){
                 $.notify("กำหนดปีงบประมาณไม่สำเร็จ", { position: " bottom right ", className: "error" });
              }
@@ -239,6 +314,20 @@ function update_school_year_active(){
              console.log(error);
          }
      })
+}
+
+function setmaxleaveintable(){
+    $.ajax({
+        "url" : "http://" + host + "/leave_management/assets/php/setuserallintable.php " ,
+        "method" : "POST",
+        success  :function(result){
+            
+               $.notify("กำหนดวันลาสูงสุดในปีงบประมาณสำเร็จ", { position: " bottom right ", className: "success" });
+               
+           
+            
+        }
+    })
 }
 
 function check_year_in_table(){
@@ -355,6 +444,7 @@ function show_select_leave_respond(){
 $(".current_leave_status").html('<p class="d-inline-block current_leave_status">วัน'+leavetype[value]+'สะสม : '+leave_status+'\tวัน</p>');
 
     }else if( value == 0 || value == null){
+        $(".current_leave_status").html('<p class="d-inline-block current_leave_status">วันลาสะสม : 0 วัน</p>');
         toastr.error('กรุณาเลือกประเภทการลา');
     }
 }
@@ -392,6 +482,7 @@ jQuery('#end_leave_date_normal').datetimepicker(
     format:'Y-m-d'
 }
 );
+
 
 var moment = require('moment-business-days');
 
@@ -651,6 +742,7 @@ function insert_leave_normal(){
         $("#select_leave_type").removeClass("is-invalid");
         var access = 1;
         var userdata = sessionStorage.getItem("userdata");
+        var status = 1;
         $.ajax({
             "url": "http://" + host + "/leave_management/assets/php/insert_leave_normal.php",
             "method": "POST",
@@ -662,6 +754,7 @@ function insert_leave_normal(){
                 diff : diff,
                 leve_title : leve_title,
                 select_leave_type : select_leave_type,
+                status : status,
                 access : access
 
 
@@ -670,8 +763,11 @@ function insert_leave_normal(){
             $("#start_leave_date_normal").val(null);
              $("#end_leave_date_normal").val(null);
              $("#leve_id").val(null);
+             $("#leve_title").val(null);
              $("#end_leave_date").val(null);
              $("#select_leave_type").val(0);
+             $(".current_leave_status").html('<p class="d-inline-block current_leave_status">วันลาสะสม : 0 วัน</p>');
+             decrese_leave_day(userdata , diff , select_leave_type);
                toastr.success('เพิ่มข้อมูลสำเร็จ');
                $('#toggle-show-userdata').modal('hide');
             }, error: function (error) {
@@ -680,4 +776,364 @@ function insert_leave_normal(){
         })
 
     }
+}
+
+function decrese_leave_day(userdata , diif , select_leave_type){
+    
+    var currrent_school_year = localStorage.getItem("school_year");
+    var leave_type_var;
+    if (select_leave_type == 1 ){
+        leave_type_var = "sick_leave";
+    }else if(select_leave_type = 2){
+        leave_type_var = "pregnant_leave";
+    }else if(select_leave_type = 3){
+        leave_type_var = "help_pregnant_leave";
+    }else if(select_leave_type = 4){
+        leave_type_var = "activity_leave";
+    }else if(select_leave_type = 5){
+        leave_type_var = "vacation_leave";
+    }else if(select_leave_type = 6){
+        leave_type_var = "monk_leave";
+    }
+$.ajax({
+    "url": "http://" + host + "/leave_management/assets/php/updatcurrentleaveamount.php",
+            "method": "POST",
+            "data": {
+                userdata  : userdata,
+                currrent_school_year :currrent_school_year,
+                diff : diif,
+                leave_type_var : leave_type_var,
+  },success : function(result){
+      console.log(result);
+  }
+});
+
+}
+
+function modal_close(){
+             $("#start_leave_date_normal").val(null);
+             $("#end_leave_date_normal").val(null);
+             $("#leve_id").val(null);
+             $("#leve_title").val(null);
+             $("#end_leave_date").val(null);
+             $("#select_leave_type").val(0);
+             $("#start_leave_date").val(null);
+             $("#end_leave_date").val(null);
+             $("#govenore_id").val(null);
+             $("#govenor_type").val(0);
+             $("#govenor_title").val(null);
+             $("#govenore_where").val(null);
+             $("#getprovince").val(1);
+             $("#getburden").val(1);
+             $(".current_leave_status").html('<p class="d-inline-block current_leave_status">วันลาสะสม : 0 วัน</p>');
+}
+
+function select_pushdata(){
+    $.ajax({
+        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpersonprefix.php",
+        "method" : "GET",
+        success : function(result){
+          var data = JSON.parse(result);
+          for(var i = 0; i < data.length ; i++){
+            $(".prefix_id option[value='"+(i+1)+"']").remove();
+    }
+          for(var i = 0; i < data.length ; i++){
+              $(".prefix_id").append(`<option value= ${i+1} >`+data[i].prefix_description+"</option>");
+      }
+        },error : function(error){
+            console.log(error);
+        }
+    })
+
+    $.ajax({
+        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpersonacademic.php",
+        "method" : "GET",
+        success : function(result){
+          var data = JSON.parse(result);
+          for(var i = 0; i < data.length ; i++){
+            $(".person_academic_insert option[value='"+(i+1)+"']").remove();
+    }
+          for(var i = 0; i < data.length ; i++){
+              $(".person_academic_insert").append(`<option value= ${i+1} >`+data[i].academic_discription+"</option>");
+      }
+        },error : function(error){
+            console.log(error);
+        }
+    })
+
+    $.ajax({
+        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpersonsai.php",
+        "method" : "GET",
+        success : function(result){
+          var data = JSON.parse(result);
+          for(var i = 0; i < data.length ; i++){
+            $(".person_sai_insert option[value='"+(i+1)+"']").remove();
+    }
+          for(var i = 0; i < data.length ; i++){
+              $(".person_sai_insert").append(`<option value= ${i+1} >`+data[i].sai_discription+"</option>");
+      }
+        },error : function(error){
+            console.log(error);
+        }
+    })
+
+    $.ajax({
+        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushsidelist.php",
+        "method" : "GET",
+        success : function(result){
+          var data = JSON.parse(result);
+          for(var i = 0; i < data.length ; i++){
+            $(".side_list_insert option[value='"+(i+1)+"']").remove();
+    }
+          for(var i = 0; i < data.length ; i++){
+              $(".side_list_insert").append(`<option value= ${i+1} >`+data[i].side_dis+"</option>");
+      }
+        },error : function(error){
+            console.log(error);
+        }
+    })
+
+    $.ajax({
+        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpositionorder.php",
+        "method" : "GET",
+        success : function(result){
+          var data = JSON.parse(result);
+          for(var i = 0; i < data.length ; i++){
+            $(".position_order_insert option[value='"+(i+1)+"']").remove();
+    }
+          for(var i = 0; i < data.length ; i++){
+              $(".position_order_insert").append(`<option value= ${i+1} >`+data[i].position_dis+"</option>");
+      }
+        },error : function(error){
+            console.log(error);
+        }
+    })
+
+    $.ajax({
+        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushlocaldepartment.php",
+        "method" : "GET",
+        success : function(result){
+          var data = JSON.parse(result);
+          for(var i = 0; i < data.length ; i++){
+            $(".local_dep_insert option[value='"+(i+1)+"']").remove();
+    }
+          for(var i = 0; i < data.length ; i++){
+              $(".local_dep_insert").append(`<option value= ${i+1} >`+data[i].dep_discription+"</option>");
+      }
+        },error : function(error){
+            console.log(error);
+        }
+    })
+
+    $.ajax({
+        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushlisdepartment.php",
+        "method" : "GET",
+        success : function(result){
+          var data = JSON.parse(result);
+          for(var i = 0; i < data.length ; i++){
+            $(".list_dep_insert option[value='"+(i+1)+"']").remove();
+    }
+          for(var i = 0; i < data.length ; i++){
+              $(".list_dep_insert").append(`<option value= ${i+1} >`+data[i].listdep_dis+"</option>");
+      }
+        },error : function(error){
+            console.log(error);
+        }
+    })
+
+    $.ajax({
+        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpersontype.php",
+        "method" : "GET",
+        success : function(result){
+          var data = JSON.parse(result);
+          for(var i = 0; i < data.length ; i++){
+            $(".person_type_insert option[value='"+(i+1)+"']").remove();
+    }
+          for(var i = 0; i < data.length ; i++){
+              $(".person_type_insert").append(`<option value= ${i+1} >`+data[i].type_description+"</option>");
+      }
+        },error : function(error){
+            console.log(error);
+        }
+    })
+
+    $.ajax({
+        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpersonincome.php",
+        "method" : "GET",
+        success : function(result){
+          var data = JSON.parse(result);
+          for(var i = 0; i < data.length ; i++){
+            $(".status_incom_insert option[value='"+(i+1)+"']").remove();
+    }
+          for(var i = 0; i < data.length ; i++){
+              $(".status_incom_insert").append(`<option value= ${i+1} >`+data[i].in_description+"</option>");
+      }
+        },error : function(error){
+            console.log(error);
+        }
+    })
+
+    $.ajax({
+        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpstatus.php",
+        "method" : "GET",
+        success : function(result){
+          var data = JSON.parse(result);
+          for(var i = 0; i < data.length ; i++){
+            $(".person_status_insert option[value='"+(i+1)+"']").remove();
+    }
+          for(var i = 0; i < data.length ; i++){
+              $(".person_status_insert").append(`<option value= ${i+1} >`+data[i].p_discription+"</option>");
+      }
+        },error : function(error){
+            console.log(error);
+        }
+    })
+}
+
+function edituser(userdata){
+    $.ajax({
+        "url" : "http://" + host + "/leave_management/assets/php/pushuserdata.php",
+        "method" : "POST",
+        "data" : {
+            userdata : userdata
+        },success : function (result){
+            var data = JSON.parse(result);
+            var data_p = data[0];
+            console.log(data);
+            $(".person_id").prop('disabled',true);
+            $("#add_person").hide();
+            $("#cancle_edit_person").show();
+            $("#edit_person").show();
+            $(".person_id").val(data_p.person_id);
+            $(".prefix_id").val(data_p.person_prefix_id);
+            $(".first_name").val(data_p.f_name_th);
+            $(".last_name").val(data_p.l_name_th);
+            $(".person_sai_insert").val(data_p.person_sai_id);
+            $(".person_academic_insert").val(data_p.person_academic_id);
+            $(".person_type_insert").val(data_p.person_type_id);
+            $(".birthday_insert").val(data_p.birthdate);
+            $(".start_date_insert").val(data_p.date_come);
+            $(".local_dep_insert").val(data_p.department_id);
+            $(".side_list_insert").val(data_p.side_id);
+            $(".list_dep_insert").val(data_p.listdep_id);
+            $(".position_order_insert").val(data_p.position_id);
+            $(".status_incom_insert").val(data_p.status_income_id);
+            $(".person_status_insert").val(data_p.status_person);
+        }
+    })
+}
+
+function cancle_edit_user(){
+                $(".person_id").prop('disabled',false);
+                $(".person_id").val(null);
+                $("#add_person").show();
+                $("#cancle_edit_person").hide();
+                $("#edit_person").hide();
+                $(".prefix_id").val(1);
+                $(".first_name").val(null);
+                $(".last_name").val(null);
+                $(".person_sai_insert").val(1);
+                $(".person_academic_insert").val(1);
+                $(".person_type_insert").val(1);
+                $(".birthday_insert").val(null);
+                $(".start_date_insert").val(null);
+                $(".local_dep_insert").val(1);
+                $(".side_list_insert").val(1);
+                $(".list_dep_insert").val(1);
+                $(".position_order_insert").val(1);
+                $(".status_incom_insert").val(1);
+                $(".person_status_insert").val(1);
+}
+
+function update_edit_user(){
+    var personid = $(".person_id").val();
+    var prefix = $(".prefix_id").val();
+    var firstname = $(".first_name").val();
+    var lastname = $(".last_name").val();
+    var sai = $(".person_sai_insert").val();
+    var academic = $(".person_academic_insert").val();
+    var persontype = $(".person_type_insert").val();
+    var birth = $(".birthday_insert").val();
+    var start_date = $(".start_date_insert").val();
+    var department = $(".local_dep_insert").val();
+    var side = $(".side_list_insert").val();
+    var listdepartment = $(".list_dep_insert").val();
+    var position = $(".position_order_insert").val();
+    var status_income = $(".status_incom_insert").val();
+    var status = $(".person_status_insert").val();
+
+    if (personid && prefix && firstname && lastname && sai && academic && persontype && birth && start_date && department && side && listdepartment && position && status_income && status != null) {
+        $.ajax({
+            "url": "http://" + host + "/leave_management/assets/php/update_user.php",
+            "method": "POST",
+            "data": {
+                personid: personid,
+                prefix: prefix,
+                firstname: firstname,
+                lastname: lastname,
+                sai: sai,
+                academic: academic,
+                persontype: persontype,
+                birth: birth,
+                start_date: start_date,
+                department: department,
+                side: side,
+                listdepartment: listdepartment,
+                position: position,
+                status_income : status_income,
+                status : status
+
+            },
+            success: function (result) {
+
+                toastr.info("แก้ไข\t" + firstname + "\t" + lastname + "\tเรียบร้อยแล้ว");
+                personid = null;
+                $(".person_id").prop('disabled',false);
+                $(".person_id").val(null);
+                $("#add_person").show();
+                $("#cancle_edit_person").hide();
+                $("#edit_person").hide();
+                $(".person_id").val(null);
+                $(".prefix_id").val(1);
+                $(".first_name").val(null);
+                $(".last_name").val(null);
+                $(".person_sai_insert").val(1);
+                $(".person_academic_insert").val(1);
+                $(".person_type_insert").val(1);
+                $(".birthday_insert").val(null);
+                $(".start_date_insert").val(null);
+                $(".local_dep_insert").val(1);
+                $(".side_list_insert").val(1);
+                $(".list_dep_insert").val(1);
+                $(".position_order_insert").val(1);
+                $(".status_incom_insert").val(1);
+                $(".person_status_insert").val(1);
+            }, error: function (error) {
+                console.log(error);
+            }
+        })
+    } else {
+        toastr.error('กรุณากรอกข้อมูลให้ครบ');
+    }
+}
+
+function insert_new_user_to_leave_stat(personid,persontype){
+   var current_year = localStorage.getItem("school_year");
+
+   $.ajax({
+       "url" : "http://" + host + "/leave_management/assets/php/insert_new_user_to_stat.php",
+       "method" : "POST",
+       "data" : {
+        persontype:persontype,
+        personid : personid,
+        current_year:current_year
+       },success : function(result){
+
+       }
+   })
+}
+
+function logout(){
+    window.sessionStorage.clear();
+    window.location.href = "http://"+host+"/leave_management/index.html";
 }
