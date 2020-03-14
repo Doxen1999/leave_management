@@ -10,7 +10,7 @@ if($_POST['access']==1){
     $insert  -> bind_param("ssissii",$_POST['leave_id'],$_POST['userdata'],$_POST['select_leave_type'],$_POST['start_date'],$_POST['end_date'],$_POST['diff'],$_POST['status']);
     $insert ->execute();
     $insert -> close();
-    
+    echo 1;
 }else{
     echo 0;
 }
