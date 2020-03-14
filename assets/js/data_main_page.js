@@ -9,9 +9,10 @@ var hour;
 var minute;
 var secound;
 var host = window.location.hostname;
+var protocal = window.location.protocol;
 function getUsercount() {
     $.ajax({
-        url: "http://"+host+"/leave_management/assets/php/usercount.php",
+        url: ""+protocal+"//"+host+"/leave_management/assets/php/usercount.php",
         type: "GET",
         success: function (data) {
             var user = JSON.parse(data);
@@ -72,7 +73,7 @@ $(document).ready(function() {
       "info": false,
       "autoWidth": false,
         "ajax": {
-            "url": "http://"+host+"/leave_management/assets/php/user_datapush.php",
+            "url": ""+protocal+"//"+host+"/leave_management/assets/php/user_datapush.php",
             "dataSrc": ""
         },
         "columns": [
@@ -108,7 +109,7 @@ $(document).ready(function() {
       "info": false,
       "autoWidth": false,
         "ajax": {
-            "url": "http://"+host+"/leave_management/assets/php/user_datapush.php",
+            "url": ""+protocal+"//"+host+"/leave_management/assets/php/user_datapush.php",
             "dataSrc": ""
         },
         'columnDefs': [
@@ -167,7 +168,7 @@ $(document).ready(function() {
     "info": false,
     "autoWidth": false,
       "ajax": {
-          "url": "http://"+host+"/leave_management/assets/php/user_datapush.php",
+          "url": ""+protocal+"//"+host+"/leave_management/assets/php/user_datapush.php",
           "dataSrc": ""
       },
       "columns": [
@@ -188,7 +189,7 @@ $(document).ready(function() {
     "info": false,
     "autoWidth": false,
       "ajax": {
-          "url": "http://"+host+"/leave_management/assets/php/user_datapush.php",
+          "url": ""+protocal+"//"+host+"/leave_management/assets/php/user_datapush.php",
           "dataSrc": ""
       },
       "columns": [
@@ -231,7 +232,7 @@ function get_current_date(){
 }
 function show_school_year(){
     $.ajax({
-        "url" : "http://" + host + "/leave_management/assets/php/getschoolyear.php",
+        "url" : ""+protocal+"//" + host + "/leave_management/assets/php/getschoolyear.php",
         "method" : "GET",
         success :function(result){
             if(result != null){

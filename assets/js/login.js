@@ -3,8 +3,9 @@ function logedin(){
     var username = $("#username").val();
     var password = $("#password").val();
     var host = window.location.hostname;
+    var protocal =window.location.protocol;
     $.ajax({
-          "url":"http://"+host+"/leave_management/assets/php/login.php",
+          "url":""+protocal+"//"+host+"/leave_management/assets/php/login.php",
           "method": "POST",
           "data":{
               username : username,
@@ -30,9 +31,10 @@ function createsession(data){
     sessionStorage.setItem("username", data.username);
     sessionStorage.setItem("role", data.role);
     var host = window.location.hostname;
+    var protocol = window.location.protocol;
     var sessionrole = sessionStorage.getItem("role");
     if(sessionrole == 2){
-        window.location.href = "http://"+host+"/leave_management/home.html";
+        window.location.href = ""+protocol+"//"+host+"/leave_management/home.html";
     }else{
         alert("Your role = "+sessionrole);
     }

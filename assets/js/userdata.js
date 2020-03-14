@@ -50,7 +50,7 @@ jQuery('.end_school_year').datetimepicker(
 
 function get_personleave_today(currentdate){
     $.ajax({
-        "url":"http://" + host + "/leave_management/assets/php/getleavetoday.php",
+        "url":""+protocal+"//" + host + "/leave_management/assets/php/getleavetoday.php",
         "method" : "POST",
         "data" : {
                currentdate : currentdate
@@ -65,7 +65,7 @@ function get_personleave_today(currentdate){
 
 function manage_userdata(userid) {
     $.ajax({
-        "url": "http://" + host + "/leave_management/assets/php/manage_userdata.php",
+        "url": ""+protocal+"//" + host + "/leave_management/assets/php/manage_userdata.php",
         "method": "POST",
         "data": { userid: userid },
         success: function (result) {
@@ -90,9 +90,9 @@ function manage_userdata(userid) {
 function setavartar(prefixs) {
 
     if (prefixs == 2 || prefixs == 3) {
-        document.getElementById("avarimg").src = "http://" + host + "/leave_management/assets/pic/avartar/female.png";
+        document.getElementById("avarimg").src = ""+protocal+"//" + host + "/leave_management/assets/pic/avartar/female.png";
     } else {
-        document.getElementById("avarimg").src = "http://" + host + "/leave_management/assets/pic/avartar/male.png";
+        document.getElementById("avarimg").src = ""+protocal+"//" + host + "/leave_management/assets/pic/avartar/male.png";
     }
 }
 
@@ -115,7 +115,7 @@ function getdata_insert() {
 
     if (personid && prefix && firstname && lastname && sai && academic && persontype && birth && start_date && department && side && listdepartment && position && status_income && status != null) {
         $.ajax({
-            "url": "http://" + host + "/leave_management/assets/php/insertperson.php",
+            "url": ""+protocal+"//" + host + "/leave_management/assets/php/insertperson.php",
             "method": "POST",
             "data": {
                 personid: personid,
@@ -174,7 +174,7 @@ function insert_school_year() {
         access = 1;
     }
     $.ajax({
-        "url": "http://" + host + "/leave_management/assets/php/insertschoolyear.php",
+        "url": ""+protocal+"//" + host + "/leave_management/assets/php/insertschoolyear.php",
         "method": "POST",
         "data": {
             access: access,
@@ -209,7 +209,7 @@ function insert_school_year() {
 
 function get_maxleave_date(value) {
     $.ajax({
-        "url": "http://" + host + "/leave_management/assets/php/get_maxleave.php",
+        "url": ""+protocal+"//" + host + "/leave_management/assets/php/get_maxleave.php",
         "method": "POST",
         "data": {
             value: value,
@@ -249,7 +249,7 @@ function update_maxleave_date(){
     var monk_leave = $("#leave_6").val();
     var value = $(".person_type_insert").val();
     $.ajax({
-        "url": "http://" + host + "/leave_management/assets/php/updatemaxleave.php",
+        "url": ""+protocal+"//" + host + "/leave_management/assets/php/updatemaxleave.php",
         "method": "POST",
         "data": {
             value : value,
@@ -276,7 +276,7 @@ function update_maxleave_date(){
 }
 function getschool_year(){
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/pushschoolyear.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/pushschoolyear.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -295,7 +295,7 @@ function getschool_year(){
 
 function update_school_year_active(active_school_year){
      $.ajax({
-         "url" : "http://" + host + "/leave_management/assets/php/activeyear.php " ,
+         "url" : ""+protocal+"//" + host + "/leave_management/assets/php/activeyear.php " ,
          "method" : "POST",
          "data" : {
             active_school_year : active_school_year,
@@ -318,7 +318,7 @@ function update_school_year_active(active_school_year){
 
 function setmaxleaveintable(){
     $.ajax({
-        "url" : "http://" + host + "/leave_management/assets/php/setuserallintable.php " ,
+        "url" : ""+protocal+"//" + host + "/leave_management/assets/php/setuserallintable.php " ,
         "method" : "POST",
         success  :function(result){
             
@@ -334,7 +334,7 @@ function check_year_in_table(){
     var get_current_year = $("#getschoolyear").val();
     console.log(get_current_year);
 $.ajax({
-    "url" : "http://" + host + "/leave_management/assets/php/yearcheck.php",
+    "url" : ""+protocal+"//" + host + "/leave_management/assets/php/yearcheck.php",
     "method" : "POST",
     "data" : {
         get_current_year : get_current_year,
@@ -356,7 +356,7 @@ function get_current_leave(userid){
     var userdata =userid;
     var active_year = localStorage.getItem("school_year");
     $.ajax({
-        "url" : "http://" + host + "/leave_management/assets/php/get_current_leave_status.php",
+        "url" : ""+protocal+"//" + host + "/leave_management/assets/php/get_current_leave_status.php",
         "method" : "POST",
         "data" : {
               userdata : userdata,
@@ -398,7 +398,7 @@ function show_select_leave_respond(){
     var userid = sessionStorage.getItem("userdata");
     var active_year = localStorage.getItem("school_year");
     $.ajax({
-        "url": "http://" + host + "/leave_management/assets/php/manage_userdata.php",
+        "url": ""+protocal+"//" + host + "/leave_management/assets/php/manage_userdata.php",
         "method": "POST",
         "data": { userid: userid },
         success: function (result) {
@@ -408,7 +408,7 @@ function show_select_leave_respond(){
         }
     })
     $.ajax({
-        "url" : "http://" + host + "/leave_management/assets/php/get_current_leave_status.php",
+        "url" : ""+protocal+"//" + host + "/leave_management/assets/php/get_current_leave_status.php",
         "method" : "POST",
         "data" : {
               userdata : userid,
@@ -502,7 +502,7 @@ function date_calculator(){
 
 function province_loop(){
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/pushprovince.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/pushprovince.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -521,7 +521,7 @@ function province_loop(){
 
 function burden_loop(){
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/burdenpush.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/burdenpush.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -601,7 +601,7 @@ function add_governor_leave(){
         $("#govenor_type").removeClass("is-invalid");
         var access = 1;
         $.ajax({
-            "url": "http://" + host + "/leave_management/assets/php/insertgovernore.php",
+            "url": ""+protocal+"//" + host + "/leave_management/assets/php/insertgovernore.php",
             "method": "POST",
             "data": {
                 
@@ -641,7 +641,7 @@ function add_governor_leave(){
 function check_govenor_id(){
     var gorvenor_id = $("#input_govenor_id").val();
     $.ajax({
-        "url" : "http://" + host + "/leave_management/assets/php/pushgovenor.php",
+        "url" : ""+protocal+"//" + host + "/leave_management/assets/php/pushgovenor.php",
         "method" : "POST",
         "data" : {
             gorvenor_id : gorvenor_id
@@ -672,7 +672,7 @@ function insert_govenore_person(){
     var current_date = sessionStorage.getItem("current_date");
     var govenor_id = sessionStorage.getItem("goven_id");
     $.ajax({
-        "url" : "http://" + host + "/leave_management/assets/php/insetgovenorleaveperson.php?"+sessionStorage.getItem("goven_leave_person"),
+        "url" : ""+protocal+"//" + host + "/leave_management/assets/php/insetgovenorleaveperson.php?"+sessionStorage.getItem("goven_leave_person"),
         "method" : "POST",
         "data" : {
             
@@ -744,7 +744,7 @@ function insert_leave_normal(){
         var userdata = sessionStorage.getItem("userdata");
         var status = 1;
         $.ajax({
-            "url": "http://" + host + "/leave_management/assets/php/insert_leave_normal.php",
+            "url": ""+protocal+"//" + host + "/leave_management/assets/php/insert_leave_normal.php",
             "method": "POST",
             "data": {
                 userdata  : userdata,
@@ -796,7 +796,7 @@ function decrese_leave_day(userdata , diif , select_leave_type){
         leave_type_var = "monk_leave";
     }
 $.ajax({
-    "url": "http://" + host + "/leave_management/assets/php/updatcurrentleaveamount.php",
+    "url": ""+protocal+"//" + host + "/leave_management/assets/php/updatcurrentleaveamount.php",
             "method": "POST",
             "data": {
                 userdata  : userdata,
@@ -830,7 +830,7 @@ function modal_close(){
 
 function select_pushdata(){
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpersonprefix.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/selectpush/pushpersonprefix.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -846,7 +846,7 @@ function select_pushdata(){
     })
 
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpersonacademic.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/selectpush/pushpersonacademic.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -862,7 +862,7 @@ function select_pushdata(){
     })
 
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpersonsai.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/selectpush/pushpersonsai.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -878,7 +878,7 @@ function select_pushdata(){
     })
 
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushsidelist.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/selectpush/pushsidelist.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -894,7 +894,7 @@ function select_pushdata(){
     })
 
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpositionorder.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/selectpush/pushpositionorder.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -910,7 +910,7 @@ function select_pushdata(){
     })
 
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushlocaldepartment.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/selectpush/pushlocaldepartment.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -926,7 +926,7 @@ function select_pushdata(){
     })
 
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushlisdepartment.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/selectpush/pushlisdepartment.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -942,7 +942,7 @@ function select_pushdata(){
     })
 
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpersontype.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/selectpush/pushpersontype.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -958,7 +958,7 @@ function select_pushdata(){
     })
 
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpersonincome.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/selectpush/pushpersonincome.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -974,7 +974,7 @@ function select_pushdata(){
     })
 
     $.ajax({
-        "url" :"http://" + host + "/leave_management/assets/php/selectpush/pushpstatus.php",
+        "url" :""+protocal+"//" + host + "/leave_management/assets/php/selectpush/pushpstatus.php",
         "method" : "GET",
         success : function(result){
           var data = JSON.parse(result);
@@ -992,7 +992,7 @@ function select_pushdata(){
 
 function edituser(userdata){
     $.ajax({
-        "url" : "http://" + host + "/leave_management/assets/php/pushuserdata.php",
+        "url" : ""+protocal+"//" + host + "/leave_management/assets/php/pushuserdata.php",
         "method" : "POST",
         "data" : {
             userdata : userdata
@@ -1064,7 +1064,7 @@ function update_edit_user(){
 
     if (personid && prefix && firstname && lastname && sai && academic && persontype && birth && start_date && department && side && listdepartment && position && status_income && status != null) {
         $.ajax({
-            "url": "http://" + host + "/leave_management/assets/php/update_user.php",
+            "url": ""+protocal+"//" + host + "/leave_management/assets/php/update_user.php",
             "method": "POST",
             "data": {
                 personid: personid,
@@ -1121,7 +1121,7 @@ function insert_new_user_to_leave_stat(personid,persontype){
    var current_year = localStorage.getItem("school_year");
 
    $.ajax({
-       "url" : "http://" + host + "/leave_management/assets/php/insert_new_user_to_stat.php",
+       "url" : ""+protocal+"//" + host + "/leave_management/assets/php/insert_new_user_to_stat.php",
        "method" : "POST",
        "data" : {
         persontype:persontype,
@@ -1135,5 +1135,5 @@ function insert_new_user_to_leave_stat(personid,persontype){
 
 function logout(){
     window.sessionStorage.clear();
-    window.location.href = "http://"+host+"/leave_management/index.html";
+    window.location.href = ""+protocal+"//"+host+"/leave_management/index.html";
 }
